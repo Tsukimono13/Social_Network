@@ -1,4 +1,5 @@
 import React from 'react';
+import './Header.css';
 
 const Header = () => {
     return (
@@ -6,7 +7,7 @@ const Header = () => {
             <div className={"container"}>
                 <div className={"header"}>
                     <div className={"header-wrapper"}>
-                        <img className={"img-logo"} src={"https://w7.pngwing.com/pngs/309/417/png-transparent-car-automotive-battery-tire-pressure-monitoring-system-business-obd-ii-pids-car-text-retail-hand.png"}/>
+                        <img className={"img-logo"} src={"https://cdn.onlinewebfonts.com/svg/download_244694.png"}/>
                     </div>
                 </div>
             </div>

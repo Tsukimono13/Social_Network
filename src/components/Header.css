@@ -1,0 +1,14 @@
+.header {
+    background-color: lightsalmon;
+    height: 70px;
+
+}
+
+.img-logo {
+    background-color: transparent;
+    width: 60px;
+    height: 50px;
+    font-weight: 500;
+    padding: 5px;
+
+}

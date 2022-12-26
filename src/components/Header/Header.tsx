@@ -1,11 +1,12 @@
 import React from 'react';
 import s from './Header.module.css';
+import Boss_cat from "..//images/Boss_cat.svg"
 
 const Header = () => {
     return (
         <header>
                 <div className={s.header}>
-                        <img src={"https://cdn.onlinewebfonts.com/svg/download_244694.png"}/>
+                        <img className={s.img} src={Boss_cat} alt={""}/>
                     </div>
         </header>
     );

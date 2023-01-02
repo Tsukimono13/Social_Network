@@ -1,16 +1,19 @@
 import React from 'react';
 import './Profile.css';
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPosts from "./MyPosts/MyPosts";
+import {PostsArType} from "../../index";
 
-const Profile = () => {
+export type PostTypeForProfile = {
+    posts: Array<PostsArType>
+}
+
+const Profile = (props:PostTypeForProfile) => {
     return (
-        <div className={"right-content"} >
-                <div>
-                    <img className={"img-content"} src={"https://i.ytimg.com/vi/6jeVZfIfzdA/maxresdefault_live.jpg"}/>
-                </div>
-                <div>Ava + discription</div>
-                <MyPosts />
-            </div>
+        <div>
+            <ProfileInfo />
+            <MyPosts posts={props.posts}/>
+        </div>
     );
 };
 

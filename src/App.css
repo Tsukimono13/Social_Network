@@ -15,6 +15,18 @@
   font-family: sans-serif;
   line-height: 1.2;
   letter-spacing: -0.02em;
+
+/*
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "nav content";
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: 2fr 10fr;*/
+
+}
+.header img{
+
 }
 
 .app-wrapper-content {
@@ -22,6 +34,32 @@
 
 }
 
+.header {
+  grid-area: header;
+  background-color: lightsalmon;
+ /* height: 70px;*/
+  height: 100px;
+}
+.header img {
+  background-color: transparent;
+  width: 70px;
+  height: 70px;
+  font-weight: 500;
+  padding: 5px;
+}
+
+.nav {
+  grid-area: nav;
+  background-color: antiquewhite;
+  float: left;
+  width: 230px;
+}
+
+.content {
+  grid-area: content;
+  margin-left: 250px;
+  overflow: hidden;
+}
 
 
 

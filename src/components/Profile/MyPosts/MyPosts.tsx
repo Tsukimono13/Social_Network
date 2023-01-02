@@ -1,16 +1,29 @@
 import React from 'react';
 import './MyPosts.css';
 import Post from "./Post/Post";
+import {PostsType} from "../../../App";
+import {PostTypeForProfile} from "../Profile";
+import {PostsArType} from "../../../index";
+
+type PostTypeForMyPost = {
+    posts: Array<PostsArType>
+}
+
+const MyPosts = (props: PostTypeForMyPost) => {
+debugger
+    let postsElement = props.posts.map(p => <Post message={p.message} valueLikes={p.likesCount}/>)
 
 
-const MyPosts = () => {
     return (
         <div>
-                <div>My post</div>
+            <div>
+                My post
+            </div>
             <textarea></textarea>
-            <button>Add Post</button>
-                <Post message={"Hi, how are you?"} valueLikes={20}/>
-                <Post message={"It's my first post"} valueLikes={2}/>
+            <div>
+                <button>Add Post</button>
+            </div>
+            {postsElement}
         </div>
     );
 };

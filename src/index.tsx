@@ -2,7 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import state from './redux/State'
 
+/*type AppState = {
+    state: Array<StateType>
+}*/
+/*
 export type MessageType = {
     id: number
     message: string
@@ -44,9 +49,12 @@ let messages: Array<MessageType> = [
     {id: 4, message: "Yo"},
     {id: 5, message: "Thank you"}
 ]
+*/
+
+
 
 ReactDOM.render(
-    <App posts={posts} dialogs={dialogs} message={messages}/>,
+    <App />,
     document.getElementById('root')
 );
 

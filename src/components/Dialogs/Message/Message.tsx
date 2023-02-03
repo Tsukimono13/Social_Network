@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './../Dialogs.module.css'
+import {MessageType} from "antd/es/message";
 
 
 type messegeType = {

@@ -1,21 +1,24 @@
 import React from 'react';
+import {v1} from "uuid";
+import {renderTree} from "../render";
 
 export type MessageType = {
-    id: number
+    id: string
     message: string
 }
 
 export type DialogsType = {
-    id: number
+    id: string
     name: string
 }
 
 export type PostType = {
-    id: number
+    id: string
     message: string
     likesCount: number
 }
 export type ProfilePageType = {
+    messageForNewPost: string
     posts: Array<PostType>
 }
 
@@ -33,30 +36,46 @@ export type StateType = {
 
  let state = {
     profilePage: {
+        messageForNewPost: "",
         posts: [
-            {id: 1, message: "Hi, how are you?", likesCount: 12},
-            {id: 2, message: "It's my first post", likesCount: 11},
-            {id: 3, message: "Where are you?", likesCount: 11},
-            {id: 4, message: "Fine, thanks", likesCount: 11}
+            {id: v1(), message: "Hi, how are you?", likesCount: 12},
+            {id: v1(), message: "It's my first post", likesCount: 11},
+            {id: v1(), message: "Where are you?", likesCount: 11},
+            {id: v1(), message: "Fine, thanks", likesCount: 11}
         ]
     },
     dialogsPage: {
         dialogs: [
-            {id: 1, name: "Irina"},
-            {id: 2, name: "Anton"},
-            {id: 3, name: "Anastasia"},
-            {id: 4, name: "Viki"},
-            {id: 5, name: "Helen"},
-            {id: 6, name: "Max"}
+            {id: v1(), name: "Irina"},
+            {id: v1(), name: "Anton"},
+            {id: v1(), name: "Anastasia"},
+            {id: v1(), name: "Viki"},
+            {id: v1(), name: "Helen"},
+            {id: v1(), name: "Max"}
         ],
         messages: [
-            {id: 1, message: "Hi"},
-            {id: 2, message: "Fine"},
-            {id: 3, message: "Why?"},
-            {id: 4, message: "Yo"},
-            {id: 5, message: "Thank you"}
+            {id: v1(), message: "Hi"},
+            {id: v1(), message: "Fine"},
+            {id: v1(), message: "Why?"},
+            {id: v1(), message: "Yo"},
+            {id: v1(), message: "Thank you"}
         ]
     }
+}
+
+export let addPost = (messageForPost: string) => {
+    let newPost: PostType ={
+        id: v1(),
+        message: messageForPost,
+        likesCount: 0
+    }
+    state.profilePage.posts.push(newPost);
+    state.profilePage.messageForNewPost= ""
+    renderTree(state);
+}
+export let updateNewPostText = (newText: string) => {
+    state.profilePage.messageForNewPost = newText;
+    renderTree(state);
 }
 
 export default state

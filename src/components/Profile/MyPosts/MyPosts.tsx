@@ -1,25 +1,32 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import './MyPosts.css';
 import Post from "./Post/Post";
-import {PostType} from "../../../redux/State";
+import {PostType, ProfilePageType} from "../../../redux/State";
 
 type PostTypeForMyPost = {
-    posts: Array<PostType>
+    posts: ProfilePageType
+    addPost: (messageForPost: string) => void
+    updateNewPostMessageCallback: (newText: string)=>void
 }
 
 const MyPosts = (props: PostTypeForMyPost) => {
-debugger
-    let postsElement = props.posts.map(p => <Post message={p.message} valueLikes={p.likesCount}/>)
+    let postsElement = props.posts.posts.map(p => <Post message={p.message} valueLikes={p.likesCount}/>)
+    let addPostHandler = () => {
+        props.addPost(props.posts.messageForNewPost)
+    }
 
+    let updateNewPostCallback = (e: ChangeEvent<HTMLTextAreaElement>) => {
+props.updateNewPostMessageCallback(e.currentTarget.value)
+    }
 
     return (
         <div>
             <div>
-                My post
+                {props.posts.posts.map(p => <div key={p.id}><b>{p.message}</b></div>)}
             </div>
-            <textarea></textarea>
+            <textarea onChange={updateNewPostCallback} value={props.posts.messageForNewPost}/>
             <div>
-                <button>Add Post</button>
+                <button onClick={addPostHandler}>Add Post</button>
             </div>
             {postsElement}
         </div>

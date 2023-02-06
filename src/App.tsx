@@ -5,13 +5,11 @@ import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
-import state, {StateType} from "./redux/State";
+import state, {StateType, updateNewPostText} from "./redux/State";
+import {addPost} from "./redux/State"
 
 
 function App() {
-
-    let posts = state.profilePage.posts
-
     return (
         <BrowserRouter>
             <div className={"app-wrapper"}>
@@ -20,9 +18,8 @@ function App() {
                 <div className={"app-wrapper-content"}>
 
                     <Route path={"/dialogs"}
-                           render={() => <Dialogs dialogsPage={state.dialogsPage}/>}/>
-                    <Route path={"/profile"} render={() => <Profile posts={posts}/>}/>
-
+                           render={() => <Dialogs dialogsPage={state.dialogsPage} />}/>
+                    <Route path={"/profile"} render={() => <Profile posts={state.profilePage} addPost={addPost} updateNewPostText={updateNewPostText}/>} />
                 </div>
             </div>
         </BrowserRouter>

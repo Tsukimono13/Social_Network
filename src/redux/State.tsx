@@ -1,6 +1,9 @@
 import React from 'react';
 import {v1} from "uuid";
-import {renderTree} from "../render";
+
+let renderTree = () => {
+    console.log('Hi')
+}
 
 export type MessageType = {
     id: string
@@ -63,7 +66,7 @@ export type StateType = {
     }
 }
 
-export let addPost = (messageForPost: string) => {
+export const addPost = (messageForPost: string) => {
     let newPost: PostType ={
         id: v1(),
         message: messageForPost,
@@ -71,11 +74,14 @@ export let addPost = (messageForPost: string) => {
     }
     state.profilePage.posts.push(newPost);
     state.profilePage.messageForNewPost= ""
-    renderTree(state);
+    renderTree();
 }
-export let updateNewPostText = (newText: string) => {
+export const updateNewPostText = (newText: string) => {
     state.profilePage.messageForNewPost = newText;
-    renderTree(state);
+    renderTree();
+}
+export const subscribe = (observer: ()=>void) => {
+    renderTree = observer;
 }
 
-export default state
+export default state;

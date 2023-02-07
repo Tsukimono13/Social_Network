@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
-import state, {StateType, updateNewPostText} from "./redux/State";
+import state, {updateNewPostText} from "./redux/State";
 import {addPost} from "./redux/State"
 
 

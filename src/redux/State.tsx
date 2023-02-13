@@ -2,7 +2,6 @@ import React from 'react';
 import {v1} from "uuid";
 
 
-
 export type MessageType = {
     id: string
     message: string
@@ -34,13 +33,30 @@ export type StateType = {
 }
 export type StoreType = {
     _state: StateType
-    updateNewPostText:(messageForPost: string) => void
+    updateNewPostText: (messageForPost: string) => void
     addPost: (messageForPost: string) => void
-    _renderTree:()=> void
-    subscribe: (observer: ()=>void) => void
+    _renderTree: () => void
+    subscribe: (observer: () => void) => void
     getState: () => StateType
+    dispatch: (action: MainACTypes) => void
 }
-let store:StoreType = {
+export type MainACTypes = addPostActionType | updateNewPostActionType
+
+export const addPostAC = (messageForPost: string)=> {
+    return {
+        type: "ADD-POST",
+        messageForPost: messageForPost
+    } as const
+}
+type addPostActionType = ReturnType<typeof addPostAC>
+type updateNewPostActionType = ReturnType<typeof updateNewPostAC>
+export const updateNewPostAC = (newText:string) => {
+    return {
+        type: "UPDATE-NEW-POST-TEXT",
+        newText: newText
+    } as const
+}
+let store: StoreType = {
     _state: {
         profilePage: {
             messageForNewPost: "",
@@ -69,28 +85,44 @@ let store:StoreType = {
             ]
         }
     },
-    _renderTree(){
+    _renderTree() {
         console.log('State changed')
     },
-    addPost (messageForPost: string) {
-        let newPost: PostType ={
+    subscribe(observer) {
+        this._renderTree = observer;
+    },
+    getState() {
+        return this._state
+    },
+    addPost(messageForPost: string) {
+        let newPost: PostType = {
             id: v1(),
             message: messageForPost,
             likesCount: 0
         }
         this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.messageForNewPost= ""
+        this._state.profilePage.messageForNewPost = ""
         this._renderTree();
     },
-    updateNewPostText (newText: string) {
-        this._state.profilePage.messageForNewPost = newText;
-        this._renderTree();
-},
-    subscribe (observer) {
-        this._renderTree = observer;
+        updateNewPostText(newText: string){
+            this._state.profilePage.messageForNewPost = newText;
+            this._renderTree();
     },
-    getState(){
-        return this._state
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            let newPost: PostType = {
+                id: v1(),
+                message: action.messageForPost,
+                likesCount: 0
+            }
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.messageForNewPost = ""
+            this._renderTree();
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.messageForNewPost = action.newText;
+            this._renderTree();
+        }
+
     }
 }
 

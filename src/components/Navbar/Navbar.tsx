@@ -1,13 +1,11 @@
 import React from 'react';
-import './Navbar.css';
+import style from './Navbar.module.css';
 import Profile from "../Profile/Profile";
 import {NavLink} from "react-router-dom";
 
 const Navbar = () => {
     return (
-        <div className={"bg-left"}>
-        <div className={"left-nav"}>
-            <div className={"container"}>
+        <div className={style.navBar}>
                 <nav className={"nav"}>
                     <div>
                         <NavLink to={"/profile"} activeClassName={"active"}>Profile</NavLink>
@@ -26,8 +24,6 @@ const Navbar = () => {
                     </div>
                 </nav>
             </div>
-        </div>
-    </div>
     );
 };
 

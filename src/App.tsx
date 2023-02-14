@@ -21,7 +21,7 @@ const App: React.FC<PropsType>=(props) => {
                 <div className={"app-wrapper-content"}>
 
                     <Route path={"/dialogs"}
-                           render={() => <Dialogs dialogsPage={state.dialogsPage} />}/>
+                           render={() => <Dialogs dialogsPage={state.dialogsPage} dispatch={props.store.dispatch.bind(props.store)}/>}/>
                     <Route path={"/profile"} render={() => <Profile posts={state.profilePage} dispatch={props.store.dispatch.bind(props.store)}/>} />
                 </div>
             </div>

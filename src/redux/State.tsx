@@ -25,6 +25,7 @@ export type ProfilePageType = {
 export type DialogPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessageType>
+    messageForNewDialogs: string
 }
 
 export type StateType = {
@@ -39,8 +40,10 @@ export type StoreType = {
     subscribe: (observer: () => void) => void
     getState: () => StateType
     dispatch: (action: MainACTypes) => void
+    addMessage: (messageFrom: string)=> void
+    updateNewMessageText: (newText: string)=> void
 }
-export type MainACTypes = addPostActionType | updateNewPostActionType
+export type MainACTypes = addPostActionType | updateNewPostActionType | addMessageACType | updateNewMessageTextACType
 
 export const addPostAC = (messageForPost: string)=> {
     return {
@@ -56,6 +59,20 @@ export const updateNewPostAC = (newText:string) => {
         newText: newText
     } as const
 }
+type addMessageACType = ReturnType<typeof addMessageAC>
+export const addMessageAC=(messageForNewDialogs:string)=>{
+    return {
+        type: "ADD-MESSAGE",
+        messageForNewDialogs: messageForNewDialogs
+    }as const
+}
+type updateNewMessageTextACType = ReturnType<typeof updateNewMessageTextAC>
+export const updateNewMessageTextAC = (newText:string) => {
+    return {
+        type: "UPDATE-NEW-MESSAGE-TEXT",
+        newText: newText
+    } as const
+}
 let store: StoreType = {
     _state: {
         profilePage: {
@@ -68,6 +85,7 @@ let store: StoreType = {
             ]
         },
         dialogsPage: {
+            messageForNewDialogs: "",
             dialogs: [
                 {id: v1(), name: "Irina"},
                 {id: v1(), name: "Anton"},
@@ -108,6 +126,16 @@ let store: StoreType = {
             this._state.profilePage.messageForNewPost = newText;
             this._renderTree();
     },
+    addMessage() {
+        let messageText = this._state.dialogsPage.messageForNewDialogs;
+        this._state.dialogsPage.messageForNewDialogs = ""
+        this._state.dialogsPage.messages.push({id: v1(), message: messageText});
+        this._renderTree();
+    },
+    updateNewMessageText(newText: string){
+        this._state.dialogsPage.messageForNewDialogs = newText;
+        this._renderTree();
+    },
     dispatch(action) {
         if (action.type === 'ADD-POST') {
             let newPost: PostType = {
@@ -120,6 +148,14 @@ let store: StoreType = {
             this._renderTree();
         } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
             this._state.profilePage.messageForNewPost = action.newText;
+            this._renderTree();
+        } else if (action.type === "ADD-MESSAGE") {
+            let message = this._state.dialogsPage.messageForNewDialogs;
+            this._state.dialogsPage.messageForNewDialogs = ""
+            this._state.dialogsPage.messages.push({id: v1(), message: message});
+            this._renderTree();
+        } else if (action.type === "UPDATE-NEW-MESSAGE-TEXT") {
+            this._state.dialogsPage.messageForNewDialogs = action.newText;
             this._renderTree();
         }
 

@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import './MyPosts.css';
 import Post from "./Post/Post";
-import {addPostAC, MainACTypes, ProfilePageType, updateNewPostAC} from "../../../redux/State";
+import {addPostAC, MainACTypes, ProfilePageType, updateNewMessageTextAC, updateNewPostAC} from "../../../redux/State";
 
 type PostTypeForMyPost = {
     posts: ProfilePageType
@@ -9,22 +9,22 @@ type PostTypeForMyPost = {
 }
 
 const MyPosts = (props: PostTypeForMyPost) => {
-    let postsElement = props.posts.posts.map(p => <Post message={p.message} valueLikes={p.likesCount}/>)
+    let postsElement = props.posts.posts.map(p => <Post message={p.message} valueLikes={p.likesCount} key={p.id}/>)
+
     let addPostHandler = () => {
-        props.dispatch(addPostAC())
+        props.dispatch(addPostAC(props.posts.messageForNewPost))
     }
 
-    let updateNewPostCallback = (e: ChangeEvent<HTMLTextAreaElement>) => {
-
-props.dispatch(updateNewPostAC())
+    let updateNewMessageCallback = (e: ChangeEvent<HTMLTextAreaElement>) => {
+props.dispatch(updateNewPostAC(e.currentTarget.value))
     }
 
     return (
-        <div>
-            <div>
+        <div className={"post-block"}>
+            {/*<div>
                 {props.posts.posts.map(p => <div key={p.id}><b>{p.message}</b></div>)}
-            </div>
-            <textarea onChange={updateNewPostCallback} value={props.posts.messageForNewPost}/>
+            </div>*/}
+            <textarea onChange={updateNewMessageCallback} value={props.posts.messageForNewPost}/>
             <div>
                 <button onClick={addPostHandler}>Add Post</button>
             </div>

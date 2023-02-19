@@ -4,15 +4,8 @@ import {NavLink} from "react-router-dom";
 import DialogItem from "./DialogItems/DialogItem";
 import Messege from "./Message/Message";
 import {MessageType} from "antd/es/message";
-import {
-    addMessageAC,
-    addPostAC,
-    DialogPageType,
-    MainACTypes,
-    ProfilePageType,
-    StateType, updateNewMessageTextAC,
-    updateNewPostAC
-} from "../../redux/State";
+import {addMessageAC, MainACTypes, updateNewMessageTextAC,} from "../../redux/dialogs-reducer";
+import {DialogPageType} from "../../redux/Store";
 
 type DialogsType = {
     dialogsPage: DialogPageType
@@ -40,14 +33,16 @@ const Dialogs = (props: DialogsType) => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
+                <div>
+                    <div><textarea onChange={updateNewPostCallback} value={props.dialogsPage.messageForNewDialogs}
+                                   placeholder={'Enter your message'}/></div>
+                    <div>
+                        <button onClick={addMessageHandler}>Add Message</button>
+                    </div>
+                </div>
             </div>
-            <div>
-                <div><textarea onChange={updateNewPostCallback} value={props.dialogsPage.messageForNewDialogs} placeholder={'Enter your message'}/></div>
-            <div>
-                <button onClick={addMessageHandler}>Add Message</button>
-            </div>
+
         </div>
-</div>
 
     )
 };

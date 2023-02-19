@@ -1,5 +1,7 @@
 import React from 'react';
 import {v1} from "uuid";
+import {profileReducer} from "./profile-reducer";
+import {dialogsReducer} from "./dialogs-reducer";
 
 
 export type MessageType = {
@@ -39,12 +41,12 @@ export type StoreType = {
     _renderTree: () => void
     subscribe: (observer: () => void) => void
     getState: () => StateType
-    dispatch: (action: MainACTypes) => void
+    dispatch: (action: any) => void
     addMessage: (messageFrom: string)=> void
     updateNewMessageText: (newText: string)=> void
 }
-export type MainACTypes = addPostActionType | updateNewPostActionType | addMessageACType | updateNewMessageTextACType
-
+/*export type MainACTypes = addPostActionType | updateNewPostActionType | addMessageACType | updateNewMessageTextACType*/
+/*
 export const addPostAC = (messageForPost: string)=> {
     return {
         type: "ADD-POST",
@@ -72,7 +74,7 @@ export const updateNewMessageTextAC = (newText:string) => {
         type: "UPDATE-NEW-MESSAGE-TEXT",
         newText: newText
     } as const
-}
+}*/
 let store: StoreType = {
     _state: {
         profilePage: {
@@ -137,7 +139,12 @@ let store: StoreType = {
         this._renderTree();
     },
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._renderTree();
+
+
+        /*if (action.type === 'ADD-POST') {
             let newPost: PostType = {
                 id: v1(),
                 message: action.messageForPost,
@@ -157,7 +164,7 @@ let store: StoreType = {
         } else if (action.type === "UPDATE-NEW-MESSAGE-TEXT") {
             this._state.dialogsPage.messageForNewDialogs = action.newText;
             this._renderTree();
-        }
+        }*/
 
     }
 }

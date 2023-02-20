@@ -9,9 +9,8 @@ import {DialogPageType} from "../../redux/Store";
 
 type DialogsType = {
     dialogsPage: DialogPageType
-    dispatch: (action: MainACTypes) => void
-
-
+    addMessageHandler: (messageForNewDialogs: string)=>void
+    updateNewPostCallback: (newText: string)=>void
 }
 
 const Dialogs = (props: DialogsType) => {
@@ -19,12 +18,12 @@ const Dialogs = (props: DialogsType) => {
     let dialogsElement = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name} key={d.id} id={d.id}/>)
     let messagesElements = props.dialogsPage.messages.map(m => <Messege message={m.message} key={m.id}/>)
 
-    let addMessageHandler = () => {
-        props.dispatch(addMessageAC(props.dialogsPage.messageForNewDialogs))
+    let addMessageCallback = () => {
+        props.addMessageHandler
     }
 
-    let updateNewPostCallback = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(updateNewMessageTextAC(e.currentTarget.value))
+    let updateNewPostHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.updateNewPostCallback
     }
     return (
         <div className={s.dialogs}>
@@ -34,10 +33,10 @@ const Dialogs = (props: DialogsType) => {
             <div className={s.messages}>
                 {messagesElements}
                 <div>
-                    <div><textarea onChange={updateNewPostCallback} value={props.dialogsPage.messageForNewDialogs}
+                    <div><textarea onChange={updateNewPostHandler} value={props.dialogsPage.messageForNewDialogs}
                                    placeholder={'Enter your message'}/></div>
                     <div>
-                        <button onClick={addMessageHandler}>Add Message</button>
+                        <button onClick={addMessageCallback}>Add Message</button>
                     </div>
                 </div>
             </div>

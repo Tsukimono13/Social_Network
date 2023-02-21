@@ -1,15 +1,9 @@
 import React, {ChangeEvent} from 'react';
-import s from './Dialogs.module.css'
-import {NavLink} from "react-router-dom";
-import DialogItem from "./DialogItems/DialogItem";
-import Messege from "./Message/Message";
-import {MessageType} from "antd/es/message";
-import {addMessageAC, MainACTypes, updateNewMessageTextAC,} from "../../redux/dialogs-reducer";
-import {DialogPageType, StateType} from "../../redux/Store";
+import {addMessageAC, InitialStateType, MainACTypes, updateNewMessageTextAC,} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {connect, useDispatch} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
-import {CombinedState, combineReducers} from "redux";
+import {CombinedState, combineReducers, Dispatch} from "redux";
 
 /*type DialogsType = {
     store: AppRootStateType
@@ -33,17 +27,26 @@ import {CombinedState, combineReducers} from "redux";
  )
 };*/
 
-let mapStateToProps = (state: StateType) => {
+type MapStateToPropsType = {
+    dialogsPage: InitialStateType
+}
+type MapDispatchToPropsType={
+    addMessage: (messageForNewDialogs: string) => void
+    updateNewPost: (newText: string) => void
+}
+
+
+let mapStateToProps = (state: AppRootStateType):MapStateToPropsType => {
     return {
         dialogsPage: state.dialogsPage
     }
 }
-let mapDispatchToProps = (dispatch: any) => {
+let mapDispatchToProps = (dispatch: Dispatch):MapDispatchToPropsType => {
     return {
-        addMessageHandler: (messageForNewDialogs: string) => {
+        addMessage: (messageForNewDialogs: string) => {
             dispatch(addMessageAC(messageForNewDialogs))
         },
-        updateNewPostCallback: (newText: string) => {
+        updateNewPost: (newText: string) => {
             dispatch(updateNewMessageTextAC(newText))
         }
     }

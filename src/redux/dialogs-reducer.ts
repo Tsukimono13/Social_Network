@@ -1,7 +1,18 @@
 import {v1} from "uuid";
-import {DialogPageType, PostType, StateType} from "./Store";
 
-let initialState: DialogPageType = {
+
+
+export type MessageType = {
+    id: string
+    message: string
+}
+export type DialogsType = {
+    id: string
+    name: string
+}
+
+export type InitialStateType = typeof initialState
+let initialState = {
     messageForNewDialogs: "",
     dialogs: [
         {id: v1(), name: "Irina"},
@@ -10,25 +21,24 @@ let initialState: DialogPageType = {
         {id: v1(), name: "Viki"},
         {id: v1(), name: "Helen"},
         {id: v1(), name: "Max"}
-    ],
+    ] as Array<DialogsType>,
     messages: [
         {id: v1(), message: "Hi"},
         {id: v1(), message: "Fine"},
         {id: v1(), message: "Why?"},
         {id: v1(), message: "Yo"},
         {id: v1(), message: "Thank you"}
-    ]
+    ] as Array<MessageType>
 }
-export const dialogsReducer = (state = initialState, action: MainACTypes) => {
+export const dialogsReducer = (state:InitialStateType = initialState, action: MainACTypes):InitialStateType => {
     switch (action.type) {
         case "ADD-MESSAGE":
-            let message = state.messageForNewDialogs;
-        state.messageForNewDialogs = ""
-        state.messages.push({id: v1(), message: message});
-            return state;
+            let message = action.messageForNewDialogs;
+            return {...state,
+                messageForNewDialogs: '',
+                messages: [...state.messages,{id: v1(), message: message}]};
         case 'UPDATE-NEW-MESSAGE-TEXT': {
-            state.messageForNewDialogs = action.newText;
-            return state;
+            return {...state,messageForNewDialogs: action.newText};
         }
         default:
             return state;

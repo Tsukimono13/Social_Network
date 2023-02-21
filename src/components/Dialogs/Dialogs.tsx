@@ -1,16 +1,13 @@
 import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css'
-import {NavLink} from "react-router-dom";
 import DialogItem from "./DialogItems/DialogItem";
 import Messege from "./Message/Message";
-import {MessageType} from "antd/es/message";
-import {addMessageAC, MainACTypes, updateNewMessageTextAC,} from "../../redux/dialogs-reducer";
 import {DialogPageType} from "../../redux/Store";
 
 type DialogsType = {
     dialogsPage: DialogPageType
-    addMessageHandler: (messageForNewDialogs: string)=>void
-    updateNewPostCallback: (newText: string)=>void
+    addMessage: (messageForNewDialogs: string)=>void
+    updateNewPost: (newText: string)=>void
 }
 
 const Dialogs = (props: DialogsType) => {
@@ -19,11 +16,11 @@ const Dialogs = (props: DialogsType) => {
     let messagesElements = props.dialogsPage.messages.map(m => <Messege message={m.message} key={m.id}/>)
 
     let addMessageCallback = () => {
-        props.addMessageHandler
+        props.addMessage(props.dialogsPage.messageForNewDialogs)
     }
 
     let updateNewPostHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostCallback
+        props.updateNewPost(e.currentTarget.value)
     }
     return (
         <div className={s.dialogs}>

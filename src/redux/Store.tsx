@@ -4,17 +4,17 @@ import {profileReducer} from "./profile-reducer";
 import {dialogsReducer} from "./dialogs-reducer";
 
 
-export type MessageType = {
+type MessageType = {
     id: string
     message: string
 }
 
-export type DialogsType = {
+type DialogsType = {
     id: string
     name: string
 }
 
-export type PostType = {
+type PostType = {
     id: string
     message: string
     likesCount: number

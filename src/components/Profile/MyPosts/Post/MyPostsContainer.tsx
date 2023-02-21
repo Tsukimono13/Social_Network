@@ -1,12 +1,11 @@
-import React, {ChangeEvent} from 'react';
-import './MyPosts.css';
-import {ProfilePageType, StateType} from "../../../../redux/Store";
-import {addPostAC, MainACTypes, updateNewPostAC} from "../../../../redux/profile-reducer";
+import React from 'react';
+import {addPostAC, updateNewPostAC} from "../../../../redux/profile-reducer";
 import MyPosts from "../MyPosts";
+import {connect} from "react-redux";
 import {AppRootStateType} from "../../../../redux/redux-store";
-import {connect, useDispatch} from "react-redux";
-import {addMessageAC, updateNewMessageTextAC} from "../../../../redux/dialogs-reducer";
-import Dialogs from "../../../Dialogs/Dialogs";
+import {InitialStateType} from "../../../../redux/profile-reducer";
+import {Dispatch} from "redux";
+
 
 
 
@@ -32,18 +31,26 @@ dispatch(updateNewPostAC(newText))
         </div>
     );
 };*/
+type MapStateToPropsType = {
+    profilePage: InitialStateType
 
+}
+type MapDispatchToPropsType={
+    addPost: (messageForPost: string)=> void
+    updateNewPostText: (newText: string)=> void
+}
 
-let mapStateToProps = (state: StateType)=> {
+let mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
     return {
-        profilePage: state.profilePage,
-        messageForNewPost: state.profilePage.messageForNewPost
+        profilePage: state.profilePage
     }
 }
-let mapDispatchToProps = (dispatch: any)=> {
+let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType=> {
     return {
-        addPostCallback: (messageForPost: string)=>{dispatch(addPostAC(messageForPost))},
-        updateNewPostText: (newText: string)=>{dispatch(updateNewPostAC(newText))}
+        addPost: (messageForPost: string)=>{
+            dispatch(addPostAC(messageForPost))},
+        updateNewPostText: (newText: string)=>{
+            dispatch(updateNewPostAC(newText))}
     }
 }
 const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)

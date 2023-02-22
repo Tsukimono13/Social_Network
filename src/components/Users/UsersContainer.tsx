@@ -2,8 +2,9 @@ import React from 'react';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {followAC, InitialStateType, setUsersAC, unfollowAC, UsersType} from "../../redux/users-reducer";
-import Users from "./Users";
+import UsersWithoutClass from "./UsersWithoutClass";
 import {AppRootStateType} from "../../redux/redux-store";
+import Users from "./Users";
 
 
 

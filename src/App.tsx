@@ -8,7 +8,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {StoreType} from "./redux/Store";
 import {store} from "./redux/redux-store";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
-import Users from "./components/Users/Users";
+import UsersWithoutClass from "./components/Users/UsersWithoutClass";
 import UsersContainer from "./components/Users/UsersContainer";
 
 

@@ -3,10 +3,10 @@ import {v1} from "uuid";
 export type UsersType = {
     id: string
     isFollowed: boolean
-    fullName: string
+    name: string
     status: string
     location: LocationType
-    photoUrl: string
+    photos: any
 }
 export type LocationType = {
     country: string

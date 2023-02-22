@@ -8,11 +8,10 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {StoreType} from "./redux/Store";
 import {store} from "./redux/redux-store";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import Users from "./components/Users/Users";
+import UsersContainer from "./components/Users/UsersContainer";
 
 
-/*type PropsType={
-    store: StoreType
-}*/
 function App(){
 
     return (
@@ -25,6 +24,7 @@ function App(){
                     <Route path={"/dialogs"}
                            render={() => <DialogsContainer/>}/>
                     <Route path={"/profile"} render={() => <Profile/>} />
+                    <Route path={"/users"} render={() => <UsersContainer/>} />
                 </div>
             </div>
         </BrowserRouter>

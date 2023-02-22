@@ -39,7 +39,7 @@ type MapDispatchToPropsType={
     addPost: (messageForPost: string)=> void
     updateNewPostText: (newText: string)=> void
 }
-
+export type ProfilePagePropsType= MapStateToPropsType & MapDispatchToPropsType
 let mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
     return {
         profilePage: state.profilePage

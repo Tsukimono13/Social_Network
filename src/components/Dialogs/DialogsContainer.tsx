@@ -26,7 +26,7 @@ import {CombinedState, combineReducers, Dispatch} from "redux";
 
  )
 };*/
-
+export type MessagePropsType = MapStateToPropsType & MapDispatchToPropsType
 type MapStateToPropsType = {
     dialogsPage: InitialStateType
 }

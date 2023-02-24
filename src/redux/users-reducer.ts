@@ -16,9 +16,10 @@ export type LocationType = {
 export type InitialStateType = typeof initialState
 let initialState = {
     users: [] as Array<UsersType>,
-    pageSize: 5,
+    pageSize: 9,
     totalUsersCount: 0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: false
 }
 export const usersReducer = (state:InitialStateType = initialState, action: MainACTypes):InitialStateType => {
     switch (action.type) {

@@ -6,3 +6,8 @@
 .selectedPage{
     font-weight: bold;
 }
+
+.users{
+    display: flex;
+    justify-content: end;
+}

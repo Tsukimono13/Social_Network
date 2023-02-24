@@ -46,11 +46,13 @@ export const usersReducer = (state:InitialStateType = initialState, action: Main
             return {...state, currentPage: action.currentPage}
         case "SET_USERS_TOTAL_COUNT":
             return {...state, totalUsersCount: action.totalCount}
+        case "TOGGLE_IS_FETCHING":
+            return {...state, isFetching: action.isFetching}
         default:
             return state;
     }
 }
-export type MainACTypes = followACType | unfollowACType | setUsersACType | setCurrentPageACType | setUsersTotalCountACType
+export type MainACTypes = followACType | unfollowACType | setUsersACType | setCurrentPageACType | setUsersTotalCountACType | setIsFetchingACType
 export type followACType = ReturnType<typeof followAC>
 
 export const followAC=(userId: string)=>{
@@ -87,5 +89,13 @@ export const setUsersTotalCountAC = (totalCount: number) => {
     return {
         type: "SET_USERS_TOTAL_COUNT",
         totalCount: totalCount
+    } as const
+}
+
+export type setIsFetchingACType = ReturnType<typeof setIsFetchingAC>
+export const setIsFetchingAC = (isFetching: boolean) => {
+    return {
+        type: "TOGGLE_IS_FETCHING",
+        isFetching:isFetching
     } as const
 }

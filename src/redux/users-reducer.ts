@@ -15,7 +15,10 @@ export type LocationType = {
 
 export type InitialStateType = typeof initialState
 let initialState = {
-    users: [] as Array<UsersType>
+    users: [] as Array<UsersType>,
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1
 }
 export const usersReducer = (state:InitialStateType = initialState, action: MainACTypes):InitialStateType => {
     switch (action.type) {
@@ -37,12 +40,16 @@ export const usersReducer = (state:InitialStateType = initialState, action: Main
                 })}
         }
         case "SET-USERS":
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: action.users}
+        case "SET_CURRENT_PAGE":
+            return {...state, currentPage: action.currentPage}
+        case "SET_USERS_TOTAL_COUNT":
+            return {...state, totalUsersCount: action.totalCount}
         default:
             return state;
     }
 }
-export type MainACTypes = followACType | unfollowACType | setUsersACType
+export type MainACTypes = followACType | unfollowACType | setUsersACType | setCurrentPageACType | setUsersTotalCountACType
 export type followACType = ReturnType<typeof followAC>
 
 export const followAC=(userId: string)=>{
@@ -64,5 +71,20 @@ export const setUsersAC = (users: Array<UsersType>) => {
     return {
         type: "SET-USERS",
         users: users
+    } as const
+}
+export type setCurrentPageACType = ReturnType<typeof setCurrentPageAC>
+export const setCurrentPageAC = (currentPage: number) => {
+    return {
+        type: "SET_CURRENT_PAGE",
+        currentPage: currentPage
+    } as const
+}
+
+export type setUsersTotalCountACType = ReturnType<typeof setUsersTotalCountAC>
+export const setUsersTotalCountAC = (totalCount: number) => {
+    return {
+        type: "SET_USERS_TOTAL_COUNT",
+        totalCount: totalCount
     } as const
 }

@@ -53,47 +53,47 @@ export const usersReducer = (state:InitialStateType = initialState, action: Main
     }
 }
 export type MainACTypes = followACType | unfollowACType | setUsersACType | setCurrentPageACType | setUsersTotalCountACType | setIsFetchingACType
-export type followACType = ReturnType<typeof followAC>
+export type followACType = ReturnType<typeof follow>
 
-export const followAC=(userId: string)=>{
+export const follow=(userId: string)=>{
     return {
         type: "FOLLOW",
         userId: userId,
     }as const
 }
 
-export type unfollowACType = ReturnType<typeof unfollowAC>
-export const unfollowAC = (userId: string) => {
+export type unfollowACType = ReturnType<typeof unfollow>
+export const unfollow = (userId: string) => {
     return {
         type: "UNFOLLOW",
         userId:userId
     } as const
 }
-export type setUsersACType = ReturnType<typeof setUsersAC>
-export const setUsersAC = (users: Array<UsersType>) => {
+export type setUsersACType = ReturnType<typeof setUsers>
+export const setUsers = (users: Array<UsersType>) => {
     return {
         type: "SET-USERS",
         users: users
     } as const
 }
-export type setCurrentPageACType = ReturnType<typeof setCurrentPageAC>
-export const setCurrentPageAC = (currentPage: number) => {
+export type setCurrentPageACType = ReturnType<typeof setCurrentPage>
+export const setCurrentPage = (currentPage: number) => {
     return {
         type: "SET_CURRENT_PAGE",
         currentPage: currentPage
     } as const
 }
 
-export type setUsersTotalCountACType = ReturnType<typeof setUsersTotalCountAC>
-export const setUsersTotalCountAC = (totalCount: number) => {
+export type setUsersTotalCountACType = ReturnType<typeof setUsersTotalCount>
+export const setUsersTotalCount = (totalCount: number) => {
     return {
         type: "SET_USERS_TOTAL_COUNT",
         totalCount: totalCount
     } as const
 }
 
-export type setIsFetchingACType = ReturnType<typeof setIsFetchingAC>
-export const setIsFetchingAC = (isFetching: boolean) => {
+export type setIsFetchingACType = ReturnType<typeof setIsFetching>
+export const setIsFetching = (isFetching: boolean) => {
     return {
         type: "TOGGLE_IS_FETCHING",
         isFetching:isFetching

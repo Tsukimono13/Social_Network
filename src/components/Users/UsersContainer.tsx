@@ -2,11 +2,11 @@ import React from 'react';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {
-    followAC,
+    follow,
     InitialStateType,
-    setCurrentPageAC, setIsFetchingAC,
-    setUsersAC, setUsersTotalCountAC,
-    unfollowAC,
+    setCurrentPage, setIsFetching,
+    setUsers, setUsersTotalCount,
+    unfollow,
     UsersType
 } from "../../redux/users-reducer";
 import {AppRootStateType} from "../../redux/redux-store";
@@ -76,7 +76,7 @@ let mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
         isFetching: state.users.isFetching
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
+/*let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
         follow: (userId: string) => {
             dispatch(followAC(userId))
@@ -97,6 +97,6 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
             dispatch(setIsFetchingAC(isFetching))
         }
     }
-}
-const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(UsersContainerComponent)
+}*/
+const MyPostsContainer = connect(mapStateToProps, {follow, unfollow, setUsers, setCurrentPage, setUsersTotalCount, setIsFetching})(UsersContainerComponent)
 export default MyPostsContainer;

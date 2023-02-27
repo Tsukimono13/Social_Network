@@ -19,7 +19,7 @@ type PostType = {
     message: string
     likesCount: number
 }
-export type ProfilePageType = {
+type ProfilePageType = {
     messageForNewPost: string
     posts: Array<PostType>
 }
@@ -139,7 +139,7 @@ let store: StoreType = {
         this._renderTree();
     },
     dispatch(action) {
-        this._state.profilePage = profileReducer(this._state.profilePage, action)
+       // this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
         this._renderTree();
 

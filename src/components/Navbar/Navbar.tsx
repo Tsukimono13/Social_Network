@@ -1,6 +1,5 @@
 import React from 'react';
 import style from './Navbar.module.css';
-import Profile from "../Profile/Profile";
 import {NavLink} from "react-router-dom";
 
 const Navbar = () => {

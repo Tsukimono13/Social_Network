@@ -1,6 +1,18 @@
 import {v1} from "uuid";
 
+export type ProfileType = {
+    photos: PhotosType
+}
 
+export type PhotosType = {
+    small: string
+    large: string
+}
+export type ProfilePageType = {
+    messageForNewPost: string
+    posts: Array<PostType>
+    profile: ProfileType
+}
 export type PostType = {
     id: string
     message: string
@@ -14,7 +26,8 @@ let initialState = {
             {id: v1(), message: "It's my first post", likesCount: 11},
             {id: v1(), message: "Where are you?", likesCount: 11},
             {id: v1(), message: "Fine, thanks", likesCount: 11}
-        ] as Array<PostType>
+        ] as Array<PostType>,
+    profile: null as ProfileType | null
     }
 export const profileReducer = (state:InitialStateType = initialState, action: MainACTypes):InitialStateType => {
     switch (action.type) {
@@ -31,12 +44,15 @@ export const profileReducer = (state:InitialStateType = initialState, action: Ma
         case 'UPDATE-NEW-POST-TEXT': {
             return {...state, messageForNewPost: action.newText};
         }
+        case 'SET-USER-PROFILE': {
+            return {...state, profile: action.profile};
+        }
         default:
             return state;
     }
 }
 
-export type MainACTypes = addPostActionType | updateNewPostActionType
+export type MainACTypes = addPostActionType | updateNewPostActionType | setUserProfileActionType
 export type addPostActionType = ReturnType<typeof addPostAC>
 export const addPostAC = (messageForPost: string) => {
     return {
@@ -50,5 +66,13 @@ export const updateNewPostAC = (newText: string) => {
     return {
         type: "UPDATE-NEW-POST-TEXT",
         newText: newText
+    } as const
+}
+
+export type setUserProfileActionType = ReturnType<typeof setUserProfile>
+export const setUserProfile = (profile: ProfileType | null) => {
+    return {
+        type: "SET-USER-PROFILE",
+        profile: profile
     } as const
 }

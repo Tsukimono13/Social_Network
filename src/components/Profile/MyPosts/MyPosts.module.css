@@ -8,10 +8,10 @@
 }
 
 .post-block{
-    display: flex;
+    /*display: flex;
     justify-content: flex-start;
     flex-direction: column;
     align-items: flex-start;
     text-align: center;
-    box-sizing: border-box;
+    box-sizing: border-box;*/
 }

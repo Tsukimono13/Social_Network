@@ -4,7 +4,6 @@
     width: 100%;
     text-align: center;
     color: white;
-
 }
 
 .header img {
@@ -15,4 +14,10 @@
     padding: 5px;
     display: flex;
     justify-content: flex-start;
+}
+
+.loginBlock{
+    float: right;
+    margin-top: -55px;
+    margin-right: 10px;
 }

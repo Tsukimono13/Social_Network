@@ -12,14 +12,15 @@ import {AppRootStateType} from "../../redux/redux-store";
 import axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader";
-import {getUsers} from "../../api/Api";
+import {userAPI} from "../../api/Api";
+
 
 class UsersContainerComponent extends React.Component<UsersPropsType, AppRootStateType> {
 
     componentDidMount() {
         this.props.setIsFetching(true)
 
-        getUsers(this.props.currentPage, this.props.pageSize).then(data => {
+        userAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
             this.props.setIsFetching(false)
             this.props.setUsers(data.items)
             this.props.setUsersTotalCount(data.totalCount)
@@ -28,7 +29,7 @@ class UsersContainerComponent extends React.Component<UsersPropsType, AppRootSta
     onPageChanged = (pageNumber: number) => {
         this.props.setIsFetching(true)
         this.props.setCurrentPage(pageNumber);
-        getUsers(pageNumber, this.props.pageSize).then(data => {
+        userAPI.getUsers(pageNumber, this.props.pageSize).then(data => {
             this.props.setIsFetching(false)
             this.props.setUsers(data.data.items)
         })

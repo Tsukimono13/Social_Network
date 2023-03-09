@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {
     follow,
     InitialStateType,
-    setCurrentPage, setIsFetching,
+    setCurrentPage, setIsFetching, setIsFollowing,
     setUsers, setUsersTotalCount,
     unfollow,
     UsersType
@@ -45,7 +45,10 @@ class UsersContainerComponent extends React.Component<UsersPropsType, AppRootSta
                        users={this.props.users}
                        follow={this.props.follow}
                        unfollow={this.props.unfollow}
-                       onPageChanged={this.onPageChanged}/>
+                       onPageChanged={this.onPageChanged}
+                       setIsFollowing={this.props.setIsFollowing}
+                       followingInProgress={this.props.followingInProgress}/>
+
             </>
         );
     }
@@ -57,15 +60,17 @@ type MapStateToPropsType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: Array<number>
 
 }
 type MapDispatchToPropsType = {
-    follow: (userId: string) => void
-    unfollow: (userId: string) => void
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
     setUsers: (users: Array<UsersType>) => void
     setCurrentPage: (pageNumber: number) => void
     setUsersTotalCount: (totalCount: number) => void
     setIsFetching: (isFetching: boolean) => void
+    setIsFollowing: (followingInProgress: boolean, userId: number) => void
 }
 export type UsersPropsType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -75,7 +80,8 @@ let mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
         pageSize: state.users.pageSize,
         totalUsersCount: state.users.totalUsersCount,
         currentPage: state.users.currentPage,
-        isFetching: state.users.isFetching
+        isFetching: state.users.isFetching,
+        followingInProgress: state.users.followingInProgress
     }
 }
 /*let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
@@ -100,5 +106,5 @@ let mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
         }
     }
 }*/
-const MyPostsContainer = connect(mapStateToProps, {follow, unfollow, setUsers, setCurrentPage, setUsersTotalCount, setIsFetching})(UsersContainerComponent)
+const MyPostsContainer = connect(mapStateToProps, {follow, unfollow, setUsers, setCurrentPage, setUsersTotalCount, setIsFetching, setIsFollowing})(UsersContainerComponent)
 export default MyPostsContainer;

@@ -22,7 +22,7 @@ const UsersWithoutClass = (props: UsersPropsType) => {
                         <img src={u.photos.small != null ? u.photos.small : userPhoto}/>
                     </div>
                     <div>
-                        {u.isFollowed ? <button onClick={()=>{props.follow(u.id)}}>Unfollow</button> : <button onClick={()=>{props.unfollow(u.id)}}>Follow</button>}
+                        {u.followed ? <button onClick={()=>{props.follow(u.id)}}>Unfollow</button> : <button onClick={()=>{props.unfollow(u.id)}}>Follow</button>}
 
                     </div>
                 </span>

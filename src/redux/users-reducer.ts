@@ -1,7 +1,7 @@
 
 export type UsersType = {
-    id: string
-    isFollowed: boolean
+    id: number
+    followed: boolean
     name: string
     status: string
     location: LocationType
@@ -18,15 +18,17 @@ let initialState = {
     pageSize: 9,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    followingInProgress: [] as Array<number>,
+    isFetching: true
 }
+
 export const usersReducer = (state:InitialStateType = initialState, action: MainACTypes):InitialStateType => {
     switch (action.type) {
         case "FOLLOW":
             return {...state,
             users: state.users.map(u=>{
             if (u.id === action.userId) {
-                return{...u, isFollowed: false}
+                return{...u, followed: false}
             }
             return u;
         })}
@@ -34,7 +36,7 @@ export const usersReducer = (state:InitialStateType = initialState, action: Main
             return {...state,
                 users: state.users.map(u=>{
                     if (u.id === action.userId) {
-                        return{...u, isFollowed: true}
+                        return{...u, followed: true}
                     }
                     return u;
                 })}
@@ -47,14 +49,21 @@ export const usersReducer = (state:InitialStateType = initialState, action: Main
             return {...state, totalUsersCount: action.totalCount}
         case "TOGGLE_IS_FETCHING":
             return {...state, isFetching: action.isFetching}
+        case "TOGGLE_IS_FOLLOWING_PROGRESS":
+            return {...state,
+                followingInProgress: action.followingInProgress ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id != action.userId)}
         default:
             return state;
     }
 }
-export type MainACTypes = followACType | unfollowACType | setUsersACType | setCurrentPageACType | setUsersTotalCountACType | setIsFetchingACType
+export type MainACTypes = followACType | unfollowACType | setUsersACType
+    | setCurrentPageACType | setUsersTotalCountACType | setIsFetchingACType
+    | setIsFollowingACType
+
 export type followACType = ReturnType<typeof follow>
 
-export const follow=(userId: string)=>{
+export const follow=(userId: number)=>{
     return {
         type: "FOLLOW",
         userId: userId,
@@ -62,7 +71,7 @@ export const follow=(userId: string)=>{
 }
 
 export type unfollowACType = ReturnType<typeof unfollow>
-export const unfollow = (userId: string) => {
+export const unfollow = (userId: number) => {
     return {
         type: "UNFOLLOW",
         userId:userId
@@ -98,3 +107,13 @@ export const setIsFetching = (isFetching: boolean) => {
         isFetching:isFetching
     } as const
 }
+
+export type setIsFollowingACType = ReturnType<typeof setIsFollowing>
+export const setIsFollowing = (followingInProgress: boolean, userId: number) => {
+    return {
+        type: "TOGGLE_IS_FOLLOWING_PROGRESS",
+        followingInProgress:followingInProgress,
+        userId:userId
+    } as const
+}
+

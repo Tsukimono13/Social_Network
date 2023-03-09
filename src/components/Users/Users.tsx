@@ -1,34 +1,40 @@
 import React from 'react';
 import style from "./Users.module.css";
 import userPhoto from "../../assets/images/unnamed.jpg";
-import {InitialStateType} from "../../redux/users-reducer";
+import {InitialStateType, setIsFollowing} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
+import {userAPI} from "../../api/Api";
 
 type UsersPropsType = {
     totalUsersCount: number
     pageSize: number
     currentPage: number
     users: InitialStateType
-    follow: (userId: string) => void
-    unfollow: (userId: string) => void
-    onPageChanged: (pageNumber: number)=>void
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+    onPageChanged: (pageNumber: number) => void
+    setIsFollowing: (followingInProgress: boolean, userId: number) => void
+    followingInProgress: Array<number>
 }
-const Users = (props:UsersPropsType) => {
+const Users = (props: UsersPropsType) => {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
     let pages = [];
-    for (let i=1; i <= pagesCount; i++) {
+    for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
+    console.log(props.users)
     return (
-            <div className={style.users}>
-                <div>
-                    {pages.map(p=> {
-                        return <span/*className={props.currentPage === p & style.selectedPage}*/ onClick={(e)=>{props.onPageChanged(p)}}>{p}</span>
-                    })}
-                </div>
-                {props.users.users.map(u => <div key={u.id}>
+        <div className={style.users}>
+            <div>
+                {pages.map(p => {
+                    return <span onClick={(e) => {
+                        props.onPageChanged(p)
+                    }}>{p}</span>
+                })}
+            </div>
+            {props.users.users.map(u => <div key={u.id}>
                 <span>
                     <div>
                         <NavLink to={"/profile/" + u.id}>
@@ -36,36 +42,30 @@ const Users = (props:UsersPropsType) => {
                     </NavLink>
                     </div>
                     <div>
-                        {u.isFollowed
-                            ? <button onClick={() => {
-                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                                    withCredentials: true,
-                                    headers: {
-                                        "API-KEY": "6848e7a3-c65e-4b3a-a0cd-7fc7aba10163"
-                                    }
-                                })
-                                    .then(response => {
-                                        if (response.data.resultCode == 0){
+                        {u.followed
+                            ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                                props.setIsFollowing(true, u.id)
+                                userAPI.deleteUsers(u.id)
+                                    .then(data => {
+                                        if (data.resultCode == 0) {
                                             props.unfollow(u.id)
                                         }
+                                        props.setIsFollowing(false, u.id)
                                     })
-                                }}>Unfollow</button>
-                            : <button onClick={() => {
-                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                                    withCredentials: true,
-                                    headers: {
-                                        "API-KEY": "6848e7a3-c65e-4b3a-a0cd-7fc7aba10163"
-                                    }
-                                })
-                                    .then(response => {
-                                    if (response.data.resultCode == 0){
-                                        props.follow(u.id)
-                                    }
-                                })
-                                }}>Follow</button>}
+                            }}>Unfollow</button>
+                            : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                                props.setIsFollowing(true, u.id)
+                                userAPI.postUser(u.id)
+                                    .then(data => {
+                                        if (data.resultCode == 0) {
+                                            props.follow(u.id)
+                                        }
+                                        props.setIsFollowing(false, u.id)
+                                    })
+                            }}>Follow</button>}
                     </div>
                 </span>
-                    <span>
+                <span>
                     <span>
                     <div>{u.name}</div>
                     <div>{u.status}</div>
@@ -75,8 +75,8 @@ const Users = (props:UsersPropsType) => {
                     <div>{'u.location.city'}</div>
                     </span>
                 </span>
-                </div>)}
-            </div>
+            </div>)}
+        </div>
     );
 };
 

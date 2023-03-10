@@ -1,39 +1,28 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {
-    follow,
+    follow, getUsersThunkCreator,
     InitialStateType,
-    setCurrentPage, setIsFetching, setIsFollowing,
-    setUsers, setUsersTotalCount,
+    setCurrentPage, setIsFollowing,
     unfollow,
-    UsersType
+
 } from "../../redux/users-reducer";
 import {AppRootStateType} from "../../redux/redux-store";
-import axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader";
-import {userAPI} from "../../api/Api";
+
 
 
 class UsersContainerComponent extends React.Component<UsersPropsType, AppRootStateType> {
 
     componentDidMount() {
-        this.props.setIsFetching(true)
+        this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize)
+    }
 
-        userAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-            this.props.setIsFetching(false)
-            this.props.setUsers(data.items)
-            this.props.setUsersTotalCount(data.totalCount)
-        })
-    }
     onPageChanged = (pageNumber: number) => {
-        this.props.setIsFetching(true)
-        this.props.setCurrentPage(pageNumber);
-        userAPI.getUsers(pageNumber, this.props.pageSize).then(data => {
-            this.props.setIsFetching(false)
-            this.props.setUsers(data.data.items)
-        })
+        this.props.getUsersThunkCreator(pageNumber, this.props.pageSize)
     }
+
     render() {
 
         return (
@@ -66,11 +55,9 @@ type MapStateToPropsType = {
 type MapDispatchToPropsType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
-    setUsers: (users: Array<UsersType>) => void
     setCurrentPage: (pageNumber: number) => void
-    setUsersTotalCount: (totalCount: number) => void
-    setIsFetching: (isFetching: boolean) => void
     setIsFollowing: (followingInProgress: boolean, userId: number) => void
+    getUsersThunkCreator: any
 }
 export type UsersPropsType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -106,5 +93,11 @@ let mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
         }
     }
 }*/
-const MyPostsContainer = connect(mapStateToProps, {follow, unfollow, setUsers, setCurrentPage, setUsersTotalCount, setIsFetching, setIsFollowing})(UsersContainerComponent)
+const MyPostsContainer = connect(mapStateToProps, {
+    follow,
+    unfollow,
+    setCurrentPage,
+    setIsFollowing,
+    getUsersThunkCreator
+})(UsersContainerComponent)
 export default MyPostsContainer;

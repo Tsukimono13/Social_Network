@@ -1,16 +1,14 @@
+import {userAPI} from "../api/Api";
+import {Dispatch} from "redux";
 
-export type UsersType = {
+type UsersType = {
     id: number
     followed: boolean
     name: string
     status: string
-    location: LocationType
     photos: any
 }
-export type LocationType = {
-    country: string
-    city: string
-}
+
 
 export type InitialStateType = typeof initialState
 let initialState = {
@@ -22,24 +20,28 @@ let initialState = {
     isFetching: true
 }
 
-export const usersReducer = (state:InitialStateType = initialState, action: MainACTypes):InitialStateType => {
+export const usersReducer = (state: InitialStateType = initialState, action: MainACTypes): InitialStateType => {
     switch (action.type) {
         case "FOLLOW":
-            return {...state,
-            users: state.users.map(u=>{
-            if (u.id === action.userId) {
-                return{...u, followed: false}
-            }
-            return u;
-        })}
-        case 'UNFOLLOW': {
-            return {...state,
-                users: state.users.map(u=>{
+            return {
+                ...state,
+                users: state.users.map(u => {
                     if (u.id === action.userId) {
-                        return{...u, followed: true}
+                        return {...u, followed: false}
                     }
                     return u;
-                })}
+                })
+            }
+        case 'UNFOLLOW': {
+            return {
+                ...state,
+                users: state.users.map(u => {
+                    if (u.id === action.userId) {
+                        return {...u, followed: true}
+                    }
+                    return u;
+                })
+            }
         }
         case "SET-USERS":
             return {...state, users: action.users}
@@ -50,9 +52,11 @@ export const usersReducer = (state:InitialStateType = initialState, action: Main
         case "TOGGLE_IS_FETCHING":
             return {...state, isFetching: action.isFetching}
         case "TOGGLE_IS_FOLLOWING_PROGRESS":
-            return {...state,
+            return {
+                ...state,
                 followingInProgress: action.followingInProgress ? [...state.followingInProgress, action.userId]
-                    : state.followingInProgress.filter(id => id != action.userId)}
+                    : state.followingInProgress.filter(id => id != action.userId)
+            }
         default:
             return state;
     }
@@ -63,18 +67,18 @@ export type MainACTypes = followACType | unfollowACType | setUsersACType
 
 export type followACType = ReturnType<typeof follow>
 
-export const follow=(userId: number)=>{
+export const follow = (userId: number) => {
     return {
         type: "FOLLOW",
         userId: userId,
-    }as const
+    } as const
 }
 
 export type unfollowACType = ReturnType<typeof unfollow>
 export const unfollow = (userId: number) => {
     return {
         type: "UNFOLLOW",
-        userId:userId
+        userId: userId
     } as const
 }
 export type setUsersACType = ReturnType<typeof setUsers>
@@ -104,7 +108,7 @@ export type setIsFetchingACType = ReturnType<typeof setIsFetching>
 export const setIsFetching = (isFetching: boolean) => {
     return {
         type: "TOGGLE_IS_FETCHING",
-        isFetching:isFetching
+        isFetching: isFetching
     } as const
 }
 
@@ -112,8 +116,20 @@ export type setIsFollowingACType = ReturnType<typeof setIsFollowing>
 export const setIsFollowing = (followingInProgress: boolean, userId: number) => {
     return {
         type: "TOGGLE_IS_FOLLOWING_PROGRESS",
-        followingInProgress:followingInProgress,
-        userId:userId
+        followingInProgress: followingInProgress,
+        userId: userId
     } as const
 }
 
+
+export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+    return (dispatch: Dispatch<MainACTypes>) => {
+        dispatch(setIsFetching(true))
+
+        userAPI.getUsers(currentPage,pageSize).then(data => {
+            dispatch(setIsFetching(false))
+            dispatch(setUsers(data.items))
+            dispatch(setUsersTotalCount(data.totalCount))
+        })
+    }
+}

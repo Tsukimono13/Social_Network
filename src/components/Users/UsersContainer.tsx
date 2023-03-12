@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {
-    follow, getUsersThunkCreator,
+    follow, followThunkCreator, getUsersThunkCreator,
     InitialStateType,
-    setCurrentPage, setIsFollowing,
-    unfollow,
+    setCurrentPage,
+    unfollow, unfollowThunkCreator,
 
 } from "../../redux/users-reducer";
 import {AppRootStateType} from "../../redux/redux-store";
@@ -35,8 +35,9 @@ class UsersContainerComponent extends React.Component<UsersPropsType, AppRootSta
                        follow={this.props.follow}
                        unfollow={this.props.unfollow}
                        onPageChanged={this.onPageChanged}
-                       setIsFollowing={this.props.setIsFollowing}
-                       followingInProgress={this.props.followingInProgress}/>
+                       followingInProgress={this.props.followingInProgress}
+                       unfollowThunkCreator={unfollowThunkCreator}
+                       followThunkCreator={followThunkCreator}/>
 
             </>
         );
@@ -56,8 +57,9 @@ type MapDispatchToPropsType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setCurrentPage: (pageNumber: number) => void
-    setIsFollowing: (followingInProgress: boolean, userId: number) => void
     getUsersThunkCreator: any
+    unfollowThunkCreator: (userId: number) => void
+    followThunkCreator: (userId: number) => void
 }
 export type UsersPropsType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -97,7 +99,9 @@ const MyPostsContainer = connect(mapStateToProps, {
     follow,
     unfollow,
     setCurrentPage,
-    setIsFollowing,
-    getUsersThunkCreator
+    getUsersThunkCreator,
+    followThunkCreator,
+    unfollowThunkCreator
+
 })(UsersContainerComponent)
 export default MyPostsContainer;

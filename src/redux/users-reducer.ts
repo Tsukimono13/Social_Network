@@ -27,7 +27,7 @@ export const usersReducer = (state: InitialStateType = initialState, action: Mai
                 ...state,
                 users: state.users.map(u => {
                     if (u.id === action.userId) {
-                        return {...u, followed: false}
+                        return {...u, followed: true}
                     }
                     return u;
                 })
@@ -37,7 +37,7 @@ export const usersReducer = (state: InitialStateType = initialState, action: Mai
                 ...state,
                 users: state.users.map(u => {
                     if (u.id === action.userId) {
-                        return {...u, followed: true}
+                        return {...u, followed: false}
                     }
                     return u;
                 })
@@ -54,7 +54,7 @@ export const usersReducer = (state: InitialStateType = initialState, action: Mai
         case "TOGGLE_IS_FOLLOWING_PROGRESS":
             return {
                 ...state,
-                followingInProgress: action.followingInProgress ? [...state.followingInProgress, action.userId]
+                followingInProgress: action.isFetching ? [...state.followingInProgress, action.userId]
                     : state.followingInProgress.filter(id => id != action.userId)
             }
         default:
@@ -113,11 +113,11 @@ export const setIsFetching = (isFetching: boolean) => {
 }
 
 export type setIsFollowingACType = ReturnType<typeof setIsFollowing>
-export const setIsFollowing = (followingInProgress: boolean, userId: number) => {
+export const setIsFollowing = (isFetching: boolean, userId: number) => {
     return {
         type: "TOGGLE_IS_FOLLOWING_PROGRESS",
-        followingInProgress: followingInProgress,
-        userId: userId
+        isFetching,
+        userId
     } as const
 }
 
@@ -131,5 +131,31 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
             dispatch(setUsers(data.items))
             dispatch(setUsersTotalCount(data.totalCount))
         })
+    }
+}
+
+export const followThunkCreator = (userId: number) => {
+    return (dispatch: Dispatch<MainACTypes>) => {
+        dispatch(setIsFollowing(true, userId))
+        userAPI.postUser(userId)
+            .then(data => {
+                if (data.resultCode == 0) {
+                    dispatch(follow(userId))
+                }
+                dispatch(setIsFollowing(false, userId))
+            })
+    }
+}
+
+export const unfollowThunkCreator = (userId: number) => {
+    return (dispatch: Dispatch<MainACTypes>) => {
+        dispatch(setIsFollowing(true, userId))
+        userAPI.deleteUsers(userId)
+            .then(data => {
+                if (data.resultCode == 0) {
+                    dispatch(unfollow(userId))
+                }
+                dispatch(setIsFollowing(false, userId))
+            })
     }
 }

@@ -4,6 +4,7 @@ import Dialogs from "./Dialogs";
 import {connect, useDispatch} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {CombinedState, combineReducers, Dispatch} from "redux";
+import {InitialStateTypeForAuth} from "../../redux/auth-reducer";
 
 /*type DialogsType = {
     store: AppRootStateType
@@ -29,6 +30,8 @@ import {CombinedState, combineReducers, Dispatch} from "redux";
 export type MessagePropsType = MapStateToPropsType & MapDispatchToPropsType
 type MapStateToPropsType = {
     dialogsPage: InitialStateType
+    auth: InitialStateTypeForAuth
+
 }
 type MapDispatchToPropsType={
     addMessage: (messageForNewDialogs: string) => void
@@ -38,7 +41,8 @@ type MapDispatchToPropsType={
 
 let mapStateToProps = (state: AppRootStateType):MapStateToPropsType => {
     return {
-        dialogsPage: state.dialogsPage
+        dialogsPage: state.dialogsPage,
+        auth: state.auth
     }
 }
 let mapDispatchToProps = (dispatch: Dispatch):MapDispatchToPropsType => {

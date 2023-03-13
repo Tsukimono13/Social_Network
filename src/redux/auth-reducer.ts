@@ -3,14 +3,14 @@ import {authAPI, profileAPI} from "../api/Api";
 import {setUserProfile} from "./profile-reducer";
 
 
-export type InitialStateType = typeof initialState
+export type InitialStateTypeForAuth = typeof initialState
 let initialState = {
     id: null,
     email: null,
     login: null,
     isAuth: false
 }
-export const authReducer = (state:InitialStateType = initialState, action: MainACTypes):InitialStateType => {
+export const authReducer = (state:InitialStateTypeForAuth = initialState, action: MainACTypes):InitialStateTypeForAuth => {
     switch (action.type) {
         case "SET-USER-DATA":
             return {...state, ...action.data, isAuth: true}

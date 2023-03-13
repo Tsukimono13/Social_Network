@@ -1,4 +1,7 @@
 import {v1} from "uuid";
+import {Dispatch} from "redux";
+import {profileAPI, userAPI} from "../api/Api";
+import {setIsFollowing, unfollow} from "./users-reducer";
 
 export type ProfileType = {
     photos: PhotosType
@@ -75,4 +78,13 @@ export const setUserProfile = (profile: ProfileType | null) => {
         type: "SET-USER-PROFILE",
         profile: profile
     } as const
+}
+
+
+export const getUserProfileTC = (userId: string) => {
+    return (dispatch: Dispatch<MainACTypes>) => {
+        profileAPI.getProfile(userId).then(data => {
+            dispatch(setUserProfile(data))
+        })
+    }
 }

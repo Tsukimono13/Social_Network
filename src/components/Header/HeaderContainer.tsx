@@ -2,17 +2,14 @@ import React from 'react';
 import {AppRootStateType} from "../../redux/redux-store";
 import Header from "./Header";
 import {connect} from "react-redux";
-import {setAuthUserData} from "../../redux/auth-reducer";
-import {authAPI} from "../../api/Api";
+import {authMeTC, setAuthUserData} from "../../redux/auth-reducer";
+import {RouteComponentProps} from "react-router-dom";
+
+
 
 class HeaderContainer extends React.Component<any, AppRootStateType> {
     componentDidMount() {
-        authAPI.getAuth().then(data => {
-            if (data.resultCode === 0) {
-                let {id, email, login} = data.data;
-                this.props.setAuthUserData(id, email, login)
-            }
-        })
+        this.props.authMeTC()
     }
 
     render() {
@@ -24,6 +21,15 @@ class HeaderContainer extends React.Component<any, AppRootStateType> {
         );
     };
 }
+type MapStateToPropsType = {
+    isAuth: boolean
+    login: string
+}
+type ParamsType = {
+    userId: string
+}
+type PropsType = RouteComponentProps<ParamsType> & AuthPropsType
+export type AuthPropsType = MapStateToPropsType & MapDispatchToPropsType
 
 const mapStateToProps = (state: AppRootStateType) => {
     return {
@@ -31,4 +37,7 @@ const mapStateToProps = (state: AppRootStateType) => {
         login: state.auth.login
     }
 }
-export default connect(mapStateToProps, {setAuthUserData}) (HeaderContainer);
+type MapDispatchToPropsType = {
+    authMeTC: () => void
+}
+export default connect(mapStateToProps, {authMeTC}) (HeaderContainer);

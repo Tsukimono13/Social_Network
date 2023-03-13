@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {authAPI, profileAPI} from "../api/Api";
+import {setUserProfile} from "./profile-reducer";
 
 
 export type InitialStateType = typeof initialState
@@ -26,4 +29,15 @@ export const setAuthUserData = (id:any, email:any, login:any) => {
         type: "SET-USER-DATA",
         data: {id, email, login}
     } as const
+}
+
+export const authMeTC = () => {
+    return (dispatch: Dispatch<MainACTypes>) => {
+        authAPI.getAuth().then(data => {
+            if (data.resultCode === 0) {
+                let {id, email, login} = data.data;
+                dispatch(setAuthUserData(id, email, login))
+            }
+        })
+    }
 }

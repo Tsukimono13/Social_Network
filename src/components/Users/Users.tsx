@@ -19,13 +19,14 @@ type UsersPropsType = {
     followThunkCreator: (userId: number) => void
 }
 const Users = (props: UsersPropsType) => {
+
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
-    console.log(props.users)
+
     return (
         <div className={style.users}>
             <div>
@@ -49,7 +50,7 @@ const Users = (props: UsersPropsType) => {
                             }}>Unfollow</button>
 
                             : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                                props.followThunkCreator( u.id)
+                                props.followThunkCreator(u.id)
                             }}>Follow</button>}
                     </div>
                 </span>

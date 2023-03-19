@@ -3,11 +3,11 @@ import {v1} from "uuid";
 
 
 export type MessageType = {
-    id: string
+    id: number
     message: string
 }
 export type DialogsType = {
-    id: string
+    id: number
     name: string
 }
 
@@ -15,19 +15,19 @@ export type InitialStateType = typeof initialState
 let initialState = {
     messageForNewDialogs: "",
     dialogs: [
-        {id: v1(), name: "Irina"},
-        {id: v1(), name: "Anton"},
-        {id: v1(), name: "Anastasia"},
-        {id: v1(), name: "Viki"},
-        {id: v1(), name: "Helen"},
-        {id: v1(), name: "Max"}
+        {id: 5, name: "Irina"},
+        {id: 6, name: "Anton"},
+        {id: 7, name: "Anastasia"},
+        {id: 47, name: "Viki"},
+        {id: 474, name: "Helen"},
+        {id: 45, name: "Max"}
     ] as Array<DialogsType>,
     messages: [
-        {id: v1(), message: "Hi"},
-        {id: v1(), message: "Fine"},
-        {id: v1(), message: "Why?"},
-        {id: v1(), message: "Yo"},
-        {id: v1(), message: "Thank you"}
+        {id: 43, message: "Hi"},
+        {id: 23, message: "Fine"},
+        {id: 8, message: "Why?"},
+        {id: 63, message: "Yo"},
+        {id: 366, message: "Thank you"}
     ] as Array<MessageType>
 }
 export const dialogsReducer = (state:InitialStateType = initialState, action: MainACTypes):InitialStateType => {
@@ -36,7 +36,7 @@ export const dialogsReducer = (state:InitialStateType = initialState, action: Ma
             let message = action.messageForNewDialogs;
             return {...state,
                 messageForNewDialogs: '',
-                messages: [...state.messages,{id: v1(), message: message}]};
+                messages: [...state.messages,{id: 5, message: message}]};
         case 'UPDATE-NEW-MESSAGE-TEXT': {
             return {...state,messageForNewDialogs: action.newText};
         }

@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom";
 
 type DialogItemType = {
     name: string
-    id: string
+    id: number
 }
 const DialogItem = (props: DialogItemType) => {
     return <div className={s.dialog}>

@@ -3,10 +3,7 @@ import {addMessageAC, InitialStateType, MainACTypes, updateNewMessageTextAC,} fr
 import Dialogs from "./Dialogs";
 import {connect, useDispatch} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
-import {CombinedState, combineReducers, Dispatch} from "redux";
-import {InitialStateTypeForAuth} from "../../redux/auth-reducer";
-import {Redirect} from "react-router-dom";
-import ProfileContainer from "../Profile/ProfileContainer";
+import { Dispatch} from "redux";
 import {withAuthRedirectComponent} from "../../hoc/AuthRedirect";
 
 

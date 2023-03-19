@@ -5,6 +5,7 @@ import {setIsFollowing, unfollow} from "./users-reducer";
 
 export type ProfileType = {
     photos: PhotosType
+    userId: number
 }
 
 export type PhotosType = {
@@ -17,7 +18,7 @@ export type ProfilePageType = {
     profile: ProfileType
 }
 export type PostType = {
-    id: string
+    id: number
     message: string
     likesCount: number
 }
@@ -25,10 +26,10 @@ export type InitialStateType = typeof initialState
 let initialState = {
         messageForNewPost: "",
         posts: [
-            {id: v1(), message: "Hi, how are you?", likesCount: 12},
-            {id: v1(), message: "It's my first post", likesCount: 11},
-            {id: v1(), message: "Where are you?", likesCount: 11},
-            {id: v1(), message: "Fine, thanks", likesCount: 11}
+            {id: 1, message: "Hi, how are you?", likesCount: 12},
+            {id: 2, message: "It's my first post", likesCount: 11},
+            {id: 3, message: "Where are you?", likesCount: 11},
+            {id: 4, message: "Fine, thanks", likesCount: 11}
         ] as Array<PostType>,
     profile: null as ProfileType | null
     }
@@ -37,7 +38,7 @@ export const profileReducer = (state:InitialStateType = initialState, action: Ma
         case "ADD-POST":
             let message = action.messageForPost;
             let newPost = {
-                id: v1(),
+                id: 5,
                 message: message,
                 likesCount: 0
             }
@@ -81,8 +82,9 @@ export const setUserProfile = (profile: ProfileType | null) => {
 }
 
 
-export const getUserProfileTC = (userId: string) => {
-    return (dispatch: Dispatch<MainACTypes>) => {
+export const getUserProfileTC = (userId: number) => {
+    return (dispatch: Dispatch<MainACTypes>, getState: any) => {
+        const userId = getState().auth.userId
         profileAPI.getProfile(userId).then(data => {
             dispatch(setUserProfile(data))
         })

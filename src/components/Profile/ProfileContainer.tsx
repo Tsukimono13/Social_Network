@@ -12,11 +12,11 @@ import {withAuthRedirectComponent} from "../../hoc/AuthRedirect";
 
 
 
-class ProfileContainer extends React.Component<PropsType, AppRootStateType> {
+class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
-        let userId = this.props.match.params.userId;
-        if (!userId) {
-            userId = "2"
+        let userId = Number(this.props.match.params.userId);
+        if (!userId && this.props.profile) {
+            userId = this.props.profile.userId
         }
         this.props.getUserProfileTC(userId)
     }
@@ -25,7 +25,7 @@ class ProfileContainer extends React.Component<PropsType, AppRootStateType> {
 
         return (
             <div className={'profile'}>
-                <Profile profile={this.props.profile}/>
+                <Profile {...this.props} profile={this.props.profile}/>
             </div>
         );
     }
@@ -38,7 +38,7 @@ type MapStateToPropsType = {
 
 }
 type MapDispatchToPropsType = {
-    getUserProfileTC: (userId: string) => void
+    getUserProfileTC: (userId: number) => void
 }
 type ParamsType = {
     userId: string
@@ -54,6 +54,5 @@ let mapStateToProps = (state: AppRootStateType): { profile: ProfileType | null} 
 }
 
 
-let WithUrlRouterDataContainerComponent = withRouter(AuthRedirectComponent)
-const MyProfileContainer = connect(mapStateToProps, {getUserProfileTC}) (WithUrlRouterDataContainerComponent);
-export default MyProfileContainer;
+let WithUrlRouterDataContainerComponent = withRouter(ProfileContainer)
+export default withAuthRedirectComponent(connect(mapStateToProps, {getUserProfileTC: getUserProfileTC}) (WithUrlRouterDataContainerComponent))

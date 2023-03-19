@@ -1,7 +1,6 @@
 import React from 'react';
 import {v1} from "uuid";
-import {profileReducer} from "./profile-reducer";
-import {dialogsReducer} from "./dialogs-reducer";
+
 
 
 type MessageType = {
@@ -140,7 +139,7 @@ let store: StoreType = {
     },
     dispatch(action) {
        // this._state.profilePage = profileReducer(this._state.profilePage, action)
-        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+       // this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
         this._renderTree();
 
 

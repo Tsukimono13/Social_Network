@@ -10,6 +10,8 @@ import {
 import {AppRootStateType} from "../../redux/redux-store";
 import Users from "./Users";
 import Preloader from "../common/Preloader";
+import {compose} from "redux";
+import {withAuthRedirectComponent} from "../../hoc/AuthRedirect";
 
 
 
@@ -57,7 +59,7 @@ type MapDispatchToPropsType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setCurrentPage: (pageNumber: number) => void
-    getUsersThunkCreator: any
+    getUsersThunkCreator: (currentPage: number, pageSize: number)=> void
     unfollowThunkCreator: (userId: number) => void
     followThunkCreator: (userId: number) => void
 }
@@ -95,13 +97,15 @@ let mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
         }
     }
 }*/
-const MyPostsContainer = connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setCurrentPage,
-    getUsersThunkCreator,
-    followThunkCreator,
-    unfollowThunkCreator
 
-})(UsersContainerComponent)
-export default MyPostsContainer;
+export default compose<React.ComponentType>(
+    withAuthRedirectComponent,
+    connect(mapStateToProps, {
+        follow,
+        unfollow,
+        setCurrentPage,
+        getUsersThunkCreator,
+        followThunkCreator,
+        unfollowThunkCreator
+    })
+)(UsersContainerComponent)
